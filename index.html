@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>  
+  <h1>შენი ბიბლიოთეკა</h1>
+  <div class="books-container">    
+    <h2>შენი წიგნები</h2>
+    <div class="books">
+      <button>დაამატე წიგნი</button> 
+    </div>
+  </div>
+
+  <div class="window">
+      <div class="inputs title">
+        <label for="title">წიგნის დასახელება:</label>
+        <input type="text" name="title" id="title">
+      </div>
+      <div class="inputs">
+        <label for="author">წიგნის ავტორი:</label>
+        <input type="text" name="author" id="author">
+      </div>
+      <div class="inputs">
+        <label for="pages">გვერდების რაოდენობა:</label>
+        <input type="text" name="pages" id="pages">
+      </div>
+      <div class="inputs read">
+        <label class="read" for="read"  >გაქვს წაკითხული?</label>
+        <input type="checkbox" name="read" id="read">   
+      </div>
+  </div>
+  
+  <script src="javascript.js"></script>
+</body>
+</html>
