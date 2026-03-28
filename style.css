@@ -21,16 +21,32 @@ h1,h2 {
   background-color: rgb(84, 80, 75);  
 }
 
-button {   
+.adding {   
   width: 150px;
-  height: 40px;
-  background-color: rgb(47, 50, 45);
-  color: white;
+  height: 40px;  
   font-size: 1rem;
   border-radius: 7px;  
   padding: 5px;
   box-shadow: none;
-  text-shadow: none;    
+  text-shadow: none; 
+}
+
+.close {
+  width: 20px;
+  margin: 10px 0px 0px 0px;
+  padding: 0;  
+  align-self: flex-end;
+}
+
+.addBook { 
+  padding: 7px;
+  margin-top: 15px;
+  font-size: 1.1rem;  
+}
+
+button {
+  background-color: rgb(47, 50, 45);
+  color: white;
 }
 
 .window {
@@ -43,8 +59,12 @@ button {
   display: flex;
   flex-direction: column;
   margin: 0;
-  padding: 10px;  
+  padding: 0px 20px 20px 20px;  
   visibility: hidden;
+}
+
+.window h2 {
+  margin-top: 0;
 }
 
 .inputs {

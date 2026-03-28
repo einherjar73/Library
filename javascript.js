@@ -1,4 +1,19 @@
+const adding = document.querySelector(".adding");
+const dialogWindow = document.querySelector(".window"); 
+const addBook = document.querySelector(".addBook");
+const closing = document.querySelector(".close");
 
+adding.addEventListener("click", () => {
+  dialogWindow.style.visibility = "visible";
+});
+
+closing.addEventListener("click", () => {
+  dialogWindow.style.visibility = "hidden";
+})
+
+addBook.addEventListener("click", () => {
+  
+});
 
 const myLibrary = [];
 
