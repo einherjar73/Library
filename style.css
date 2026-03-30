@@ -19,7 +19,7 @@ h1,h2,h3 {
   background-color: rgb(84, 80, 75);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: 70px repeat(5, 1fr);
+  grid-template-rows: 70px repeat(4, 1fr);
   gap: 5px;
 }
 
@@ -29,10 +29,14 @@ h1,h2,h3 {
 }
 
 .books {
+  background-color: rgb(57, 57, 51);
   color: white;
   border: 10px groove rgb(212, 124, 0); 
-  text-align: center;
-  font-size: 1.2rem;
+  text-align: center;  
+}
+
+.books p {
+  margin: 0;
 }
 
 .adding {

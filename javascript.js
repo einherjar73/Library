@@ -44,17 +44,25 @@ function addBookToLibrary(title, author, pages, read) {
 
 function showOnDisplay() {
   for(let i = 0; i < myLibrary.length; i++){
+    let titlePara = document.createElement("p");
+    let authorPara = document.createElement("p");
+    let pagesPara = document.createElement("p");
+    let readPara = document.createElement("p");
     
+    titlePara = myLibrary[i].title;
+    authorPara = myLibrary[i].author;
   };
 }
 
 function clearFields() {
   title.value = "";
-  author.value = "";
+  author.value = ""; 
   pages.value = "";
-  read.value = "false";
+  read.checked = "false";
 }
 
 function hideWindow() {
   dialogWindow.style.visibility = "hidden";
 }
+
+document.querySelector(".book-container").querySelector("div").classList.add("books");
