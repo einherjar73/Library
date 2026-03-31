@@ -6,6 +6,8 @@ const title = document.querySelector("#title");
 const author = document.querySelector("#author");
 const pages = document.querySelector("#pages");
 const read = document.querySelector("#read");
+const myLibrary = [];
+const bookContainer = document.querySelector(".book-container");
 
 adding.addEventListener("click", () => {
   dialogWindow.style.visibility = "visible";
@@ -16,18 +18,28 @@ closing.addEventListener("click", () => {
   hideWindow();
 })
 
-addBook.addEventListener("click", () => {
+addBook.addEventListener("click", () => {  
+
   let savedTitle = title.value;
   let savedAuthor = author.value;
   let savedPages = pages.value;
-  let savedRead = read.checked;
+  let savedRead = read.checked;  
 
-  addBookToLibrary(savedTitle, savedAuthor, savedPages, savedRead);
-  clearFields();
-  hideWindow();
+  if (savedTitle !== ""){
+    addBookToLibrary(savedTitle, savedAuthor, savedPages, savedRead);
+    clearFields();
+    hideWindow();
+    removeDivs();
+    showOnDisplay();
+  } else {
+    title.addEventListener("invalid", () => {
+      title.setCustomValidity("შევსება სავალდებულოა");
+    });
+    title.addEventListener("input", () => {
+      title.setCustomValidity("");
+    });
+  }   
 });
-
-const myLibrary = [];
 
 function Book(title, author, pages, read) {
   this.id = crypto.randomUUID();
@@ -39,18 +51,12 @@ function Book(title, author, pages, read) {
 
 function addBookToLibrary(title, author, pages, read) {
   let book = new Book(title, author, pages, read);
-  myLibrary.push(book);
+  myLibrary.push(book);  
 }
 
-function showOnDisplay() {
-  for(let i = 0; i < myLibrary.length; i++){
-    let titlePara = document.createElement("p");
-    let authorPara = document.createElement("p");
-    let pagesPara = document.createElement("p");
-    let readPara = document.createElement("p");
-    
-    titlePara = myLibrary[i].title;
-    authorPara = myLibrary[i].author;
+function showOnDisplay() {  
+  for(let i = 0; i < myLibrary.length; i++){    
+    createBooks(i);
   };
 }
 
@@ -58,11 +64,76 @@ function clearFields() {
   title.value = "";
   author.value = ""; 
   pages.value = "";
-  read.checked = "false";
+  read.checked = false;
 }
 
 function hideWindow() {
   dialogWindow.style.visibility = "hidden";
 }
 
-document.querySelector(".book-container").querySelector("div").classList.add("books");
+function createBooks(i) {
+  let titlePara;
+  let authorPara;
+  let pagesPara;
+  let readPara; 
+ 
+  let books = document.createElement("div");
+
+  if (myLibrary[i].title != "") {
+    titlePara = document.createElement("p");
+    titlePara.textContent = `დასახელება: ${myLibrary[i].title}`;
+    books.appendChild(titlePara);
+  }
+  if (myLibrary[i].author != "") {
+    authorPara = document.createElement("p");
+    authorPara.textContent = `ავტორი: ${myLibrary[i].author}`;
+    books.appendChild(authorPara);
+  }
+  if (myLibrary[i].pages != "") {
+    pagesPara = document.createElement("p");
+    pagesPara.textContent = `გვერდების რაოდენობა: ${myLibrary[i].pages}`;
+    books.appendChild(pagesPara);
+  }
+
+  
+  readPara = document.createElement("p");
+  if (myLibrary[i].read) {      
+  readPara.textContent = "წაკითხული მაქვს ✅";
+  } else {
+  readPara.textContent = "ჯერ არ წამიკითხავს ❌";
+  }     
+
+  bookContainer.appendChild(books);
+  books.appendChild(readPara);
+  books.classList.add("books");
+
+  addButtonsToBooks(books);
+}
+
+function removeDivs() {
+  const books = bookContainer.querySelectorAll(".books");
+  books.forEach(book => book.remove());  
+}
+
+function addButtonsToBooks(books) {
+   
+
+  // ელემენტს ვქმნი
+  let buttonContainer = document.createElement("div");  
+  let readButton = document.createElement("button");
+  let removeButton = document.createElement("button");  
+  
+  // ვარქმევ ღილაკებს სახელებს   
+  readButton.textContent = "წავიკითხე";
+  removeButton.textContent = "წაშლა";
+
+  // გამომაქვს ღილაკები ვიზუალურად
+  books.appendChild(buttonContainer);
+  buttonContainer.appendChild(readButton);
+  buttonContainer.appendChild(removeButton);
+
+  // ვუმატებ ღილაკებს კლასს
+  readButton.classList.add("read-button");
+  removeButton.classList.add("remove-button");  
+  buttonContainer.classList.add("button-container");
+}

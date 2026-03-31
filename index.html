@@ -10,18 +10,15 @@
     <h1>შენი ბიბლიოთეკა</h1>    
     <button class="adding">დაამატე წიგნი</button>
     <div class="book-container">
-      <h2>შენი წიგნები</h2>
-      <div>  
-      </div>
+      <h2>შენი წიგნები</h2>      
     </div>
-
-    <div class="window">
+    <form class="window">
       <button class="close">X</button>
       <h2>წიგნის დამატება</h2>
 
       <div class="inputs title">
         <label for="title">წიგნის დასახელება:</label>
-        <input type="text" name="title" id="title" />
+        <input type="text" name="title" id="title" required/>
       </div>
       <div class="inputs">
         <label for="author">წიგნის ავტორი:</label>
@@ -36,8 +33,7 @@
         <input type="checkbox" name="read" id="read" />
       </div>
       <button class="addBook">დაამატე</button>
-    </div>
-    <p class="test"></p>
+    </form>
     <script src="javascript.js"></script>
   </body>
 </html>
