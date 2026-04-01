@@ -1,5 +1,5 @@
 const adding = document.querySelector(".adding");
-const dialogWindow = document.querySelector(".window"); 
+const dialogWindow = document.querySelector(".window");
 const addBook = document.querySelector(".addBook");
 const closing = document.querySelector(".close");
 const title = document.querySelector("#title");
@@ -13,19 +13,18 @@ adding.addEventListener("click", () => {
   dialogWindow.style.visibility = "visible";
 });
 
-closing.addEventListener("click", () => {  
+closing.addEventListener("click", () => {
   clearFields();
   hideWindow();
-})
+});
 
-addBook.addEventListener("click", () => {  
-
+addBook.addEventListener("click", () => {
   let savedTitle = title.value;
   let savedAuthor = author.value;
   let savedPages = pages.value;
-  let savedRead = read.checked;  
+  let savedRead = read.checked;
 
-  if (savedTitle !== ""){
+  if (savedTitle !== "") {
     addBookToLibrary(savedTitle, savedAuthor, savedPages, savedRead);
     clearFields();
     hideWindow();
@@ -38,7 +37,7 @@ addBook.addEventListener("click", () => {
     title.addEventListener("input", () => {
       title.setCustomValidity("");
     });
-  }   
+  }
 });
 
 function Book(title, author, pages, read) {
@@ -51,18 +50,19 @@ function Book(title, author, pages, read) {
 
 function addBookToLibrary(title, author, pages, read) {
   let book = new Book(title, author, pages, read);
-  myLibrary.push(book);  
+  myLibrary.push(book);
 }
 
-function showOnDisplay() {  
-  for(let i = 0; i < myLibrary.length; i++){    
+function showOnDisplay() {
+  for (let i = 0; i < myLibrary.length; i++) {
     createBooks(i);
-  };
+  }
 }
 
+// ეს ფუნქცია ასუფთავებს ველებს
 function clearFields() {
   title.value = "";
-  author.value = ""; 
+  author.value = "";
   pages.value = "";
   read.checked = false;
 }
@@ -71,59 +71,54 @@ function hideWindow() {
   dialogWindow.style.visibility = "hidden";
 }
 
-function createBooks(i) {
-  let titlePara;
-  let authorPara;
-  let pagesPara;
-  let readPara; 
- 
-  let books = document.createElement("div");
+// ეს ფუნქცია შლის წიგნების ელემენტს ციკლში რომ არ მეორდებოდეს ყოველი წინა ელემენტები
+function removeDivs() {
+  const books = bookContainer.querySelectorAll(".books");
+  books.forEach((book) => book.remove());
+}
 
-  if (myLibrary[i].title != "") {
-    titlePara = document.createElement("p");
-    titlePara.textContent = `დასახელება: ${myLibrary[i].title}`;
-    books.appendChild(titlePara);
-  }
+function createBooks(i) {
+  let books = document.createElement("div");
+  let readOrNot;
+
+  // ვქმნი სათაურის ელემენტს და ვამატებ ვიზუალურად
+
+  let titlePara = document.createElement("p");
+  titlePara.textContent = `დასახელება: ${myLibrary[i].title}`;
+  books.appendChild(titlePara);
+
+  // ავტორის ველს ვამოწმებ ცარიელი არის თუ არა და მერე ვქმნი ელემენტს და ვამატებ ვიზუალურად
   if (myLibrary[i].author != "") {
-    authorPara = document.createElement("p");
+    let authorPara = document.createElement("p");
     authorPara.textContent = `ავტორი: ${myLibrary[i].author}`;
     books.appendChild(authorPara);
   }
+
+  // გვერდების რაოდენობას ვამოწმებ ცარიელი არის თუ არა და მერე ვქმნი ელემენტს და ვამატებ ვიზუალურად
   if (myLibrary[i].pages != "") {
-    pagesPara = document.createElement("p");
+    let pagesPara = document.createElement("p");
     pagesPara.textContent = `გვერდების რაოდენობა: ${myLibrary[i].pages}`;
     books.appendChild(pagesPara);
   }
 
-  
-  readPara = document.createElement("p");
-  if (myLibrary[i].read) {      
-  readPara.textContent = "წაკითხული მაქვს ✅";
-  } else {
-  readPara.textContent = "ჯერ არ წამიკითხავს ❌";
-  }     
+  // ვქმნი წაკითხულია თუ არა წიგნი და მონიშნული თუა checkbox ვამოწმებ, ვქმნი ელემენტს და ვამატებ ვიზუალურად
+  addReadOrNot(i, books, readOrNot);
 
+  // ვქმნი ჩარჩოს და ელემენტს სადაც ეს ინფორმაცია ჩაიწერება და ვუმატებ კლასს
   bookContainer.appendChild(books);
-  books.appendChild(readPara);
   books.classList.add("books");
 
-  addButtonsToBooks(books);
+  // ვამატებ წაკითხვის და წაშლის ღილაკებს
+  addButtonsToBooks(books, readOrNot);
 }
 
-function removeDivs() {
-  const books = bookContainer.querySelectorAll(".books");
-  books.forEach(book => book.remove());  
-}
-
-function addButtonsToBooks(books) {
-   
-
+function addButtonsToBooks(books, readOrNot) {
   // ელემენტს ვქმნი
-  let buttonContainer = document.createElement("div");  
+  let buttonContainer = document.createElement("div");
   let readButton = document.createElement("button");
-  let removeButton = document.createElement("button");  
+  let removeButton = document.createElement("button");
   
-  // ვარქმევ ღილაკებს სახელებს   
+  // ვარქმევ ღილაკებს სახელებს
   readButton.textContent = "წავიკითხე";
   removeButton.textContent = "წაშლა";
 
@@ -134,6 +129,26 @@ function addButtonsToBooks(books) {
 
   // ვუმატებ ღილაკებს კლასს
   readButton.classList.add("read-button");
-  removeButton.classList.add("remove-button");  
+  removeButton.classList.add("remove-button");
   buttonContainer.classList.add("button-container");
+
+  // წაკითხვის ღილაკს აძლევს ფუნქციონალს - ცვლის წაკითხვა/არ წაკითხვას
+  readButton.addEventListener("click", (e) => {    
+    readOrNot ? readOrNot = false : readOrNot = true;
+    
+    // addReadOrNot();
+  })
+};
+
+// ეს ფუნქცია ამოწმებს მონიშნული იყო თუ არა checkbox წიგნის წაკითხვის შესახებ, ქმნის ელემენტს და გამოაქვს ვიზუალურად
+function addReadOrNot(i, books, readOrNot) {
+  let readPara = document.createElement("p");
+  if (myLibrary[i].read) {
+    readPara.textContent = "წაკითხული მაქვს ✅";
+    readOrNot = true;    
+  } else {
+    readPara.textContent = "ჯერ არ წამიკითხავს ❌";
+    readOrNot = false;
+  }
+  books.appendChild(readPara);
 }
