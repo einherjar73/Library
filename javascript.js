@@ -78,8 +78,7 @@ function removeDivs() {
 }
 
 function createBooks(i) {
-  let books = document.createElement("div");
-  let readOrNot;
+  let books = document.createElement("div");  
 
   // ვქმნი სათაურის ელემენტს და ვამატებ ვიზუალურად
 
@@ -102,17 +101,23 @@ function createBooks(i) {
   }
 
   // ვქმნი წაკითხულია თუ არა წიგნი და მონიშნული თუა checkbox ვამოწმებ, ვქმნი ელემენტს და ვამატებ ვიზუალურად
-  addReadOrNot(i, books, readOrNot);
+  let readPara = document.createElement("p");
+  if (myLibrary[i].read) {
+    readPara.textContent = "წაკითხული მაქვს ✅";
+  } else {
+    readPara.textContent = "ჯერ არ წამიკითხავს ❌";    
+  }  
+  books.appendChild(readPara); 
 
   // ვქმნი ჩარჩოს და ელემენტს სადაც ეს ინფორმაცია ჩაიწერება და ვუმატებ კლასს
   bookContainer.appendChild(books);
   books.classList.add("books");
 
   // ვამატებ წაკითხვის და წაშლის ღილაკებს
-  addButtonsToBooks(books, readOrNot);
+  addButtonsToBooks(books, i, readPara);
 }
 
-function addButtonsToBooks(books, readOrNot) {
+function addButtonsToBooks(books, i, readPara) {
   // ელემენტს ვქმნი
   let buttonContainer = document.createElement("div");
   let readButton = document.createElement("button");
@@ -126,29 +131,24 @@ function addButtonsToBooks(books, readOrNot) {
   books.appendChild(buttonContainer);
   buttonContainer.appendChild(readButton);
   buttonContainer.appendChild(removeButton);
+  
+  readButton.addEventListener("click", () => {     
+     changeReadToUnread(i, readPara);
+  });
 
   // ვუმატებ ღილაკებს კლასს
   readButton.classList.add("read-button");
   removeButton.classList.add("remove-button");
-  buttonContainer.classList.add("button-container");
-
-  // წაკითხვის ღილაკს აძლევს ფუნქციონალს - ცვლის წაკითხვა/არ წაკითხვას
-  readButton.addEventListener("click", (e) => {    
-    readOrNot ? readOrNot = false : readOrNot = true;
-    
-    // addReadOrNot();
-  })
+  buttonContainer.classList.add("button-container");  
 };
 
-// ეს ფუნქცია ამოწმებს მონიშნული იყო თუ არა checkbox წიგნის წაკითხვის შესახებ, ქმნის ელემენტს და გამოაქვს ვიზუალურად
-function addReadOrNot(i, books, readOrNot) {
-  let readPara = document.createElement("p");
+
+function changeReadToUnread(i, readPara) {  
   if (myLibrary[i].read) {
-    readPara.textContent = "წაკითხული მაქვს ✅";
-    readOrNot = true;    
-  } else {
     readPara.textContent = "ჯერ არ წამიკითხავს ❌";
-    readOrNot = false;
-  }
-  books.appendChild(readPara);
+    myLibrary[i].read = false;
+  } else {
+    readPara.textContent = "წაკითხული მაქვს ✅";
+    myLibrary[i].read = true;
+  }  
 }
