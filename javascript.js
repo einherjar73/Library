@@ -124,7 +124,11 @@ function addButtonsToBooks(books, i, readPara) {
   let removeButton = document.createElement("button");
   
   // ვარქმევ ღილაკებს სახელებს
-  readButton.textContent = "წავიკითხე";
+  if (myLibrary[i].read === false) {
+    readButton.textContent = "წავიკითხე";
+  } else {
+    readButton.textContent = "არ წამიკითხავს"
+  }
   removeButton.textContent = "წაშლა";
 
   // გამომაქვს ღილაკები ვიზუალურად
@@ -133,7 +137,11 @@ function addButtonsToBooks(books, i, readPara) {
   buttonContainer.appendChild(removeButton);
   
   readButton.addEventListener("click", () => {     
-     changeReadToUnread(i, readPara);
+    changeReadToUnread(i, readPara, readButton);
+  });
+
+  removeButton.addEventListener("click", () => {
+    
   });
 
   // ვუმატებ ღილაკებს კლასს
@@ -143,12 +151,18 @@ function addButtonsToBooks(books, i, readPara) {
 };
 
 
-function changeReadToUnread(i, readPara) {  
+function changeReadToUnread(i, readPara, readButton) {  
   if (myLibrary[i].read) {
     readPara.textContent = "ჯერ არ წამიკითხავს ❌";
     myLibrary[i].read = false;
+    readButton.textContent = "წავიკითხე"
   } else {
     readPara.textContent = "წაკითხული მაქვს ✅";
     myLibrary[i].read = true;
+    readButton.textContent = "არ წამიკითხავს"
   }  
+}
+
+function removeBook() {
+  
 }
