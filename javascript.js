@@ -1,6 +1,6 @@
 const adding = document.querySelector(".adding");
 const dialogWindow = document.querySelector(".window");
-const addBook = document.querySelector(".addBook");
+const addButton = document.querySelector(".addBook");
 const closing = document.querySelector(".close");
 const title = document.querySelector("#title");
 const author = document.querySelector("#author");
@@ -8,6 +8,15 @@ const pages = document.querySelector("#pages");
 const read = document.querySelector("#read");
 const myLibrary = [];
 const bookContainer = document.querySelector(".book-container");
+
+
+// dialogWindow.addEventListener("submit", (e) => {
+//   e.preventDefault();
+// });
+
+// closing.addEventListener("click", (e) => {
+//   e.preventDefault();
+// });
 
 adding.addEventListener("click", () => {
   dialogWindow.style.visibility = "visible";
@@ -18,26 +27,8 @@ closing.addEventListener("click", () => {
   hideWindow();
 });
 
-addBook.addEventListener("click", () => {
-  let savedTitle = title.value;
-  let savedAuthor = author.value;
-  let savedPages = pages.value;
-  let savedRead = read.checked;
-
-  if (savedTitle !== "") {
-    addBookToLibrary(savedTitle, savedAuthor, savedPages, savedRead);
-    clearFields();
-    hideWindow();
-    removeDivs();
-    showOnDisplay();
-  } else {
-    title.addEventListener("invalid", () => {
-      title.setCustomValidity("შევსება სავალდებულოა");
-    });
-    title.addEventListener("input", () => {
-      title.setCustomValidity("");
-    });
-  }
+addButton.addEventListener("click", () => {
+  addBook();
 });
 
 function Book(title, author, pages, read) {
@@ -83,7 +74,9 @@ function createBooks(i) {
   // ვქმნი სათაურის ელემენტს და ვამატებ ვიზუალურად
 
   let titlePara = document.createElement("p");
-  titlePara.textContent = `დასახელება: ${myLibrary[i].title}`;
+  titlePara.textContent = `${myLibrary[i].title}`;
+  titlePara.style.fontSize = "1.5rem";
+  titlePara.style.textAlign = "center";
   books.appendChild(titlePara);
 
   // ავტორის ველს ვამოწმებ ცარიელი არის თუ არა და მერე ვქმნი ელემენტს და ვამატებ ვიზუალურად
@@ -102,6 +95,7 @@ function createBooks(i) {
 
   // ვქმნი წაკითხულია თუ არა წიგნი და მონიშნული თუა checkbox ვამოწმებ, ვქმნი ელემენტს და ვამატებ ვიზუალურად
   let readPara = document.createElement("p");
+  readPara.style.textAlign = "center";
   if (myLibrary[i].read) {
     readPara.textContent = "წაკითხული მაქვს ✅";
   } else {
@@ -141,7 +135,7 @@ function addButtonsToBooks(books, i, readPara) {
   });
 
   removeButton.addEventListener("click", () => {
-    
+    removeBook(i);
   });
 
   // ვუმატებ ღილაკებს კლასს
@@ -163,6 +157,29 @@ function changeReadToUnread(i, readPara, readButton) {
   }  
 }
 
-function removeBook() {
-  
+function addBook () {
+  let savedTitle = title.value;
+  let savedAuthor = author.value;
+  let savedPages = pages.value;
+  let savedRead = read.checked;
+
+  if (savedTitle !== "") {
+    addBookToLibrary(savedTitle, savedAuthor, savedPages, savedRead);
+    clearFields();
+    hideWindow();
+    removeDivs();
+    showOnDisplay();
+  } else {
+    title.addEventListener("invalid", () => {
+      title.setCustomValidity("შევსება სავალდებულოა");
+    });
+    title.addEventListener("input", () => {
+      title.setCustomValidity("");
+    });
+  }
+}
+
+function removeBook(i) {
+  myLibrary.splice(i, 1);
+  const books = bookContainer.querySelectorAll(".books");    
 }
